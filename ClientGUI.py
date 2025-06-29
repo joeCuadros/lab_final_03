@@ -76,7 +76,6 @@ class ChatInterface:
         )
         self.username_entry = ttk.Entry(form_frame, style="Custom.TEntry", width=25)
         self.username_entry.grid(row=0, column=1, pady=5, padx=(10, 0))
-        self.username_entry.insert(0, "Usuario")
         
         # Campo IP
         ttk.Label(form_frame, text="Dirección (IP):", style="Custom.TLabel").grid(
@@ -219,7 +218,7 @@ class ChatInterface:
         self.message_entry.focus()
         
     def connect_to_chat(self):
-        """Conectar al chat (aquí integrarías tu lógica)"""
+        """Conectar al chat"""
         username = self.username_entry.get().strip()
         ip = self.ip_entry.get().strip()
         port = self.port_entry.get().strip()
@@ -282,7 +281,7 @@ class ChatInterface:
             self.show_login()
             
     def send_message(self):
-        """Enviar mensaje (aquí integrarías tu lógica)"""
+        """Enviar mensaje"""
         message = self.message_entry.get().strip()
         if message:
             message_content = message
@@ -329,7 +328,7 @@ class ChatInterface:
         self._manage_message_history()
         
     def add_received_message(self, username, message):
-        """Agregar mensaje recibido al chat"""
+        """Agregar mensaje recibido del chat"""
         timestamp = datetime.now().strftime("%H:%M:%S")
         self.chat_display.config(state=tk.NORMAL)
         
@@ -394,7 +393,7 @@ class ChatInterface:
             self.users_listbox.insert(tk.END, f"👤 {username}")
             
     def remove_user_from_list(self, username):
-        """Remover usuario de la lista de conectados"""
+        """Agregar usuario a la lista de conectados"""
         items = self.users_listbox.get(0, tk.END)
         for i, item in enumerate(items):
             if username in item:

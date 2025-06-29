@@ -203,7 +203,7 @@ class ServerGUI:
         
             
     def apagar_servidor(self):
-        """Botón apagar servidor - AQUÍ IMPLEMENTAR LÓGICA"""
+        """Botón apagar servido"""
         if messagebox.askyesno("Confirmar", "¿Estás seguro que quieres apagar el servidor?"):
             
             self.server.stop()
@@ -220,7 +220,7 @@ class ServerGUI:
             self.imprimir_logs("Servidor detenido")
             
     def mostrar_info_cliente(self, event):
-        """Mostrar información del cliente seleccionado - AQUÍ IMPLEMENTAR LÓGICA"""
+        """Mostrar información del cliente seleccionado"""
         selection = self.clients_listbox.curselection()
         if selection:
             cliente_text = self.clients_listbox.get(selection[0])
