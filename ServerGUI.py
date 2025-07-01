@@ -248,14 +248,27 @@ class ServerGUI:
         main_frame = ttk.Frame(info_window, style="Custom.TFrame")
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
-        # Título
+        # Sub‑frame para el header
+        header_frame = ttk.Frame(main_frame, style="Custom.TFrame")
+        header_frame.pack(fill="x", pady=(0, 20))
+
+        # Título en la izquierda
         title_label = ttk.Label(
-            main_frame,
+            header_frame,
             text=f"📋 Información de {nombre_cliente}",
             style="Title.TLabel"
         )
-        title_label.pack(pady=(0, 20))
-        
+        title_label.pack(side="left", padx=(0, 10))
+
+        # Botón Eliminar a su lado
+        delete_cliente_button = ttk.Button(
+            header_frame,
+            text="Eliminar",
+            style="Stop.TButton",
+            command=lambda: self.eliminar_cliente_preguntar(nombre_cliente)
+        )
+        delete_cliente_button.pack(side="left")
+
         # Información del cliente
         info_frame = ttk.LabelFrame(
             main_frame,
@@ -288,7 +301,13 @@ class ServerGUI:
         )
         close_button.pack(pady=(10, 0))
         
-           
+    def eliminar_cliente_preguntar(self, nombre):
+        """Manejar la eliminacion del cliente"""
+        if messagebox.askyesno("Confirmar", f"¿Estás seguro que quiere eliminar a {nombre} "):
+            self.server.mensaje_privado("Has sido expulsado de la sala",cliente_receptor=nombre,tipo=Message.SALIR)
+            self.server.eliminar_cliente(nombre=nombre)
+
+
     def imprimir_logs(self, mensaje):
         """Método para imprimir logs en la interfaz"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -440,10 +459,10 @@ class Server:
                 if cliente_emisor != cliente:
                     cliente._mandar_mensajes(msg, tipo)
 
-    def mensaje_privado(self,msg, cliente_receptor):
+    def mensaje_privado(self,msg, cliente_receptor, tipo=Message.CHAT_PRIVADO):
         with self.lock:
             if cliente_receptor in self.clientes:
-               self.clientes[cliente_receptor]._mandar_mensajes(msg, Message.CHAT_PRIVADO) 
+               self.clientes[cliente_receptor]._mandar_mensajes(msg,tipo) 
                return True
             else:
                 return False
